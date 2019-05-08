@@ -1,0 +1,7 @@
+.DS_Store
+/.vscode
+
+/dds-http-java/.idea
+/dds-http-java/target
+/dds-websocket-java/.idea
+/dds-websocket-java/target
