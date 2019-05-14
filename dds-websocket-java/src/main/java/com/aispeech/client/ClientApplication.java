@@ -27,9 +27,11 @@ public class ClientApplication {
     public static void main(String[] args) {
         JSONObject authParams = new JSONObject();
         authParams.put("alias", "prod");
-        authParams.put("productId", "278578029");
-        authParams.put("deviceName", "33f35b18c34f8c35c2521e408b3733b8");
-        authParams.put("deviceSecret", "14511da111e246909a59f4fc6020cfdd");
+
+        // 使用自己产品的相关参数替换下列参数。
+        authParams.put("productId", "000000001");
+        authParams.put("deviceName", "ae0169e4764b11e9a9700b31182119fe");
+        authParams.put("deviceSecret", "b83fa39e764b11e9bc0c9fb0a0ae2c88");
         authParams.put("ddsServer", "dds.dui.ai");
 
         try {

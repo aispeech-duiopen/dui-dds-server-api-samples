@@ -9,10 +9,12 @@ from hashlib import sha1
 from uuid import uuid4
 
 alias = "prod"
-productId = "278578029"
-deviceName = "33f35b18c34f8c35c2521e408b3733b8"
 audioFile = "8k.wav"
-deviceSecret = '14511da111e246909a59f4fc6020cfdd'
+
+# 使用自己产品的相关参数替换下列参数。
+productId = "000000001"
+deviceName = "ae0169e4764b11e9a9700b31182119fe"
+deviceSecret = 'b83fa39e764b11e9bc0c9fb0a0ae2c88'
 
 
 def signature(sig_factors):
