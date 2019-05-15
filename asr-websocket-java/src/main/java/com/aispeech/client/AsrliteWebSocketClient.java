@@ -1,7 +1,5 @@
 package com.aispeech.client;
 
-import org.java_websocket.client.WebSocketClient;
-
 import javax.websocket.ContainerProvider;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
@@ -13,28 +11,25 @@ import java.nio.ByteBuffer;
 public class AsrliteWebSocketClient extends BaseClient {
     public Session session;
 
-
-    protected void start(String authType, String authParams) {
+    protected void start(String url) {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 
-        String uri = appendAuthParams(authType, authParams);
         try {
-            session = container.connectToServer(WebSocket.class, URI.create(uri));
+            session = container.connectToServer(WebSocket.class, URI.create(url));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
+     * @param url         请求地址
      * @param requestData 请求参数
      * @param filePath    语音识别文件
-     * @param authType    auth类型，这里为deviceName
-     * @param authParams  auth参数，合成请求uri，示例："{\"deviceName\":\"xxx\",\"productId\":\"xxx\",\"deviceSecret\":\"xxx\",\"server\":\"xxx\","serverType":"asr","apiKey":""}"
      * @param step        分帧发送音频步长，推荐ogg的音频用400，wav/pcm的音频用3200
      */
-    public void doAsrWebSocketClient(String requestData, String filePath, String authType, String authParams, Integer step) {
+    public void doAsrWebSocketClient(String url, String requestData, String filePath, Integer step) {
         AsrliteWebSocketClient asrliteWebSocketClientApp = new AsrliteWebSocketClient();
-        asrliteWebSocketClientApp.start(authType, authParams);
+        asrliteWebSocketClientApp.start(url);
         try {
             InputStream inputStream = new FileInputStream(filePath);
             int read = 0;

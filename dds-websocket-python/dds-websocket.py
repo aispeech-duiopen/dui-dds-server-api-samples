@@ -12,9 +12,9 @@ alias = "prod"
 audioFile = "8k.wav"
 
 # 使用自己产品的相关参数替换下列参数。
-productId = "000000001"
-deviceName = "ae0169e4764b11e9a9700b31182119fe"
-deviceSecret = 'b83fa39e764b11e9bc0c9fb0a0ae2c88'
+productId = "x"
+deviceName = "x"
+deviceSecret = 'x'
 
 
 def signature(sig_factors):
