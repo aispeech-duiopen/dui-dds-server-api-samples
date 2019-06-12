@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.aispeech</groupId>
-    <artifactId>dds-for-java</artifactId>
+    <artifactId>dds-http-java</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dds-for-java</name>
     <description>demo project for dds via http</description>

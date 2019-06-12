@@ -4,3 +4,6 @@
 * dds-http-python --- 全链路产品基于 http 协议接口 Python 代码示例。
 * dds-websocket-java --- 全链路产品基于 websocket 协议接口 Java 代码示例。
 * dds-websocket-python --- 全链路产品基于 websocket 协议接口 Python 代码示例。
+* asr-http-java --- 在线语音识别基于 http 协议接口 Java 代码示例。
+* asr-websocket-java --- 在线语音识别基于 websocket 协议接口 Java 代码示例。
+* tts-http-java --- 在线语音合成基于 http 协议接口 Java 代码示例。

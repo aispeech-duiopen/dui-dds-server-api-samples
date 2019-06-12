@@ -8,8 +8,11 @@ from hashlib import sha1
 alias = "prod"
 # 使用自己产品的相关参数替换下列参数。
 productId = "x"
+# 设备对云端。
 deviceName = "x"
-deviceSecret = 'x'
+deviceSecret = "x"
+# 云端对云端。
+apikey = "x"
 
 
 def signature(sig_factors):
@@ -25,67 +28,32 @@ def signature(sig_factors):
     return hashed.hexdigest()
 
 
-def textDm():
+def textDm(url):
     # 发送文本请求对话。
-    nonce = uuid4().hex
-    timestamp = int(time.time())
-    nonce = uuid4().hex
-    factors = {
-        "deviceName": deviceName,
-        "nonce": nonce,
-        "productId": productId,
-        "timestamp": str(timestamp)
-    }
-    sig = signature(factors)
-
     content = {
         "aiType": "dm",  # aiType 设置为 "dm"
         "topic": 'nlu.input.text',
         "recordId": uuid4().hex,
         "refText": "苏州的天气"
     }
-    url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
     r = requests.post(url, json=content)
     print(r.text)
 
 
-def textNlu():
+def textNlu(url):
     # 发送文本请求语义。
-    nonce = uuid4().hex
-    timestamp = int(time.time())
-    nonce = uuid4().hex
-    factors = {
-        "deviceName": deviceName,
-        "nonce": nonce,
-        "productId": productId,
-        "timestamp": str(timestamp)
-    }
-    sig = signature(factors)
-
     content = {
         "aiType": "nlu",  # aiType 设置为 "nlu"
         "topic": 'nlu.input.text',
         "recordId": uuid4().hex,
         "refText": "苏州的天气"
     }
-    url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
     r = requests.post(url, json=content)
     print(r.text)
 
 
-def systemSetting():
+def systemSetting(url):
     # 做系统级配置。
-    nonce = uuid4().hex
-    timestamp = int(time.time())
-    nonce = uuid4().hex
-    factors = {
-        "deviceName": deviceName,
-        "nonce": nonce,
-        "productId": productId,
-        "timestamp": str(timestamp)
-    }
-    sig = signature(factors)
-
     content = {
         "topic": "system.settings",
         "settings": [
@@ -101,24 +69,12 @@ def systemSetting():
             }
         ]
     }
-    url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
     r = requests.post(url, json=content)
     print(r.text)
 
 
-def skillSetting():
+def skillSetting(url):
     # 做技能级配置。
-    nonce = uuid4().hex
-    timestamp = int(time.time())
-    nonce = uuid4().hex
-    factors = {
-        "deviceName": deviceName,
-        "nonce": nonce,
-        "productId": productId,
-        "timestamp": str(timestamp)
-    }
-    sig = signature(factors)
-
     content = {
         "topic": "skill.settings",
         "skillId": "2018040200000004",
@@ -129,13 +85,29 @@ def skillSetting():
             }
         ]
     }
-    url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
+    
     r = requests.post(url, json=content)
     print(r.text)
 
 
 if __name__ == "__main__":
-    textDm()
-    # textNlu()
-    # systemSetting()
-    # skillSetting()
+    # 云端对云端。
+    url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&apikey={apikey}"
+
+    # 设备对云端。
+    # nonce = uuid4().hex
+    # timestamp = int(time.time())
+    # nonce = uuid4().hex
+    # factors = {
+    #     "deviceName": deviceName,
+    #     "nonce": nonce,
+    #     "productId": productId,
+    #     "timestamp": str(timestamp)
+    # }
+    # sig = signature(factors)
+    # url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
+    
+    textDm(url)
+    # textNlu(url)
+    # systemSetting(url)
+    # skillSetting(url)

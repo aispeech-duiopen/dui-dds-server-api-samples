@@ -31,11 +31,20 @@ public class ClientApplication {
 
         // 使用自己产品的相关参数替换下列参数。
         authParams.put("productId", "x");
-        authParams.put("deviceName", "x");
-        authParams.put("deviceSecret", "x");
 
+        // 设备对云端。
+        // authParams.put("deviceName", "x");
+        // authParams.put("deviceSecret", "x");
+        // try {
+        //     doDDSWebSocketRequest("deviceName", authParams);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+        // 云端对云端。
+        authParams.put("apiKey", "x");
         try {
-            doDDSWebSocketRequest("deviceName", authParams);
+            doDDSWebSocketRequest("apiKey", authParams);
         } catch (Exception e) {
             e.printStackTrace();
         }

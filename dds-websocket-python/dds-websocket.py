@@ -13,8 +13,11 @@ audioFile = "8k.wav"
 
 # 使用自己产品的相关参数替换下列参数。
 productId = "x"
+# 设备对云端。
 deviceName = "x"
-deviceSecret = 'x'
+deviceSecret = "x"
+# 云端对云端。
+apikey = "x"
 
 
 def signature(sig_factors):
@@ -95,17 +98,22 @@ async def audioRequest(ws):
 
 
 async def dds_demo():
-    nonce = uuid4().hex
-    timestamp = int(time.time())
-    nonce = uuid4().hex
-    factors = {
-        "productId": productId,
-        "deviceName": deviceName,
-        "timestamp": str(timestamp),
-        "nonce": nonce
-    }
-    sig = signature(factors)
-    url = f"wss://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}&serviceType=websocket"
+    # 云端对云端。
+    url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&apikey={apikey}"
+
+    # 设备对云端。
+    # nonce = uuid4().hex
+    # timestamp = int(time.time())
+    # nonce = uuid4().hex
+    # factors = {
+    #     "productId": productId,
+    #     "deviceName": deviceName,
+    #     "timestamp": str(timestamp),
+    #     "nonce": nonce
+    # }
+    # sig = signature(factors)
+    # url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}&serviceType=websocket"
+    
     print(url)
     async with websockets.connect(url) as websocket:
         await textRequest(websocket)
