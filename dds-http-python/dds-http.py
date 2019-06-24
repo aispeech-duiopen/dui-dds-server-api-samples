@@ -40,18 +40,6 @@ def textDm(url):
     print(r.text)
 
 
-def textNlu(url):
-    # 发送文本请求语义。
-    content = {
-        "aiType": "nlu",  # aiType 设置为 "nlu"
-        "topic": 'nlu.input.text',
-        "recordId": uuid4().hex,
-        "refText": "苏州的天气"
-    }
-    r = requests.post(url, json=content)
-    print(r.text)
-
-
 def systemSetting(url):
     # 做系统级配置。
     content = {
@@ -108,6 +96,5 @@ if __name__ == "__main__":
     # url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
     
     textDm(url)
-    # textNlu(url)
     # systemSetting(url)
     # skillSetting(url)

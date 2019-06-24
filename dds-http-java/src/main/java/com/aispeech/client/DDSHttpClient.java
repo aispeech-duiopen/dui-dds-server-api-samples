@@ -43,27 +43,6 @@ public class DDSHttpClient extends BaseClient {
         }
     }
 
-    // 发送文本请求语义。
-    public void textNlu() {
-        JSONObject textParams = new JSONObject();
-        textParams.put("aiType", "nlu");
-        textParams.put("topic", "nlu.input.text");
-        textParams.put("recordId", UUID.randomUUID() + "");
-        textParams.put("refText", "苏州的天气");
-
-        HttpPost post = new HttpPost(ddsUrl);
-        post.setHeader("Accept", "application/json");
-        post.setHeader("Content-type", "application/json; charset=utf-8");
-        try {
-            StringEntity body = new StringEntity(JSONObject.toJSONString(textParams), "utf-8");
-            post.setEntity(body);
-            HttpResponse resp = ddsClient.execute(post);
-            print(EntityUtils.toString(resp.getEntity()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     // 做系统级配置。
     public void systemSetting() {
         JSONObject textParams = new JSONObject();
