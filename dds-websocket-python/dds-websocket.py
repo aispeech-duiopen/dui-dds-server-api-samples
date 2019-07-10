@@ -8,11 +8,11 @@ import websockets
 from hashlib import sha1
 from uuid import uuid4
 
-alias = "prod"
+alias = "test"
 audioFile = "8k.wav"
 
 # 使用自己产品的相关参数替换下列参数。
-productId = "x"
+productId = "278576766"
 # 设备对云端。
 deviceName = "x"
 deviceSecret = "x"
@@ -38,7 +38,7 @@ async def textRequest(ws):
         "aiType":"dm",
         "topic": 'nlu.input.text',
         "recordId": uuid4().hex,
-        "refText": "苏州的天气"
+        "refText": "姚明是谁"
     }
     try:
         await ws.send(json.dumps(content))
@@ -99,26 +99,26 @@ async def audioRequest(ws):
 
 async def dds_demo():
     # 云端对云端。
-    url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&apikey={apikey}"
+    # url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&apikey={apikey}"
 
     # 设备对云端。
-    # nonce = uuid4().hex
-    # timestamp = int(time.time())
-    # nonce = uuid4().hex
-    # factors = {
-    #     "productId": productId,
-    #     "deviceName": deviceName,
-    #     "timestamp": str(timestamp),
-    #     "nonce": nonce
-    # }
-    # sig = signature(factors)
-    # url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}&serviceType=websocket"
+    nonce = uuid4().hex
+    timestamp = int(time.time())
+    nonce = uuid4().hex
+    factors = {
+        "productId": productId,
+        "deviceName": deviceName,
+        "timestamp": str(timestamp),
+        "nonce": nonce
+    }
+    sig = signature(factors)
+    url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
     
     print(url)
     async with websockets.connect(url) as websocket:
         await textRequest(websocket)
-        await triggerIntent(websocket)
-        await audioRequest(websocket)
+        # await triggerIntent(websocket)
+        # await audioRequest(websocket)
 
 
 asyncio.get_event_loop().run_until_complete(dds_demo())
