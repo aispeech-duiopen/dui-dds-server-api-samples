@@ -58,7 +58,7 @@ public class DDSWebSocketClient extends BaseClient {
         intentParams.put("task", "天气");
 
         JSONObject slots = new JSONObject();
-        slots.put("key", "苏州");
+        slots.put("城市", "苏州");
         intentParams.put("slots", slots);
         try {
             client.send(JSONObject.toJSONString(intentParams));

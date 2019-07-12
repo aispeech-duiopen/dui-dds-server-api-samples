@@ -12,7 +12,7 @@ alias = "test"
 audioFile = "8k.wav"
 
 # 使用自己产品的相关参数替换下列参数。
-productId = "278576766"
+productId = "x"
 # 设备对云端。
 deviceName = "x"
 deviceSecret = "x"
@@ -56,7 +56,9 @@ async def triggerIntent(ws):
         'skillId': '2018040200000004',
         'intent': '查询天气',
         'task': "天气",
-        'slots': {'key': "苏州"}
+        'slots': {
+            '城市': "苏州"
+        }
     }
     try:
         await ws.send(json.dumps(content))
