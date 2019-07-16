@@ -43,6 +43,33 @@ public class DDSHttpClient extends BaseClient {
         }
     }
 
+    // 发送触发意图请求。
+    public void triggerIntent() {
+        JSONObject textParams = new JSONObject();
+        textParams.put("aiType", "dm");
+        textParams.put("topic", "dm.input.intent");
+        textParams.put("recordId", UUID.randomUUID() + "");
+        textParams.put("skillId", "2018040200000004");
+        textParams.put("task", "查询天气");
+        textParams.put("intent", "天气");
+
+        JSONObject slotsParams = new JSONObject();
+        slotsParams.put("国内城市", "苏州");
+        textParams.put("slots", slotsParams);
+
+        HttpPost post = new HttpPost(ddsUrl);
+        post.setHeader("Accept", "application/json");
+        post.setHeader("Content-type", "application/json; charset=utf-8");
+        try {
+            StringEntity body = new StringEntity(JSONObject.toJSONString(textParams), "utf-8");
+            post.setEntity(body);
+            HttpResponse resp = ddsClient.execute(post);
+            print(EntityUtils.toString(resp.getEntity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // 做系统级配置。
     public void systemSetting() {
         JSONObject textParams = new JSONObject();

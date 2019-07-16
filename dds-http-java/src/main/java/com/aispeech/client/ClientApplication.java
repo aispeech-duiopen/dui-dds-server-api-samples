@@ -7,6 +7,7 @@ public class ClientApplication {
     private static void doDDSHttpRequest(String authType, JSONObject authParams) {
         DDSHttpClient ddsHttpClient = new DDSHttpClient(authType, authParams);
         ddsHttpClient.textDm();
+        // ddsHttpClient.triggerIntent();
         // ddsHttpClient.systemSetting();
         // ddsHttpClient.skillSetting();
     }

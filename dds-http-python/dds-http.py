@@ -39,6 +39,22 @@ def textDm(url):
     r = requests.post(url, json=content)
     print(r.text)
 
+def triggerIntent(url):
+    # 发送触发意图请求。
+    content = {
+        "aiType":"dm",
+        "topic": "dm.input.intent",
+        "recordId": uuid4().hex,
+        "skillId": "2018040200000004",
+        "task": "查询天气",
+        "intent": "天气",
+        "slots": {
+            "国内城市": "苏州",
+        }
+    }
+    r = requests.post(url, json=content)
+    print(r.text)
+
 
 def systemSetting(url):
     # 做系统级配置。
@@ -96,5 +112,6 @@ if __name__ == "__main__":
     # url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
     
     textDm(url)
+    # triggerIntent(url)
     # systemSetting(url)
     # skillSetting(url)

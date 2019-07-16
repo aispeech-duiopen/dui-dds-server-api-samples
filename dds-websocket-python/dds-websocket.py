@@ -57,7 +57,7 @@ async def triggerIntent(ws):
         'intent': '查询天气',
         'task': "天气",
         'slots': {
-            '城市': "苏州"
+            '国内城市': "苏州"
         }
     }
     try:
