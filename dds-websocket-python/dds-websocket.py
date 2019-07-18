@@ -8,29 +8,12 @@ import websockets
 from hashlib import sha1
 from uuid import uuid4
 
-alias = "test"
+alias = "prod"
 audioFile = "8k.wav"
 
 # 使用自己产品的相关参数替换下列参数。
 productId = "x"
-# 设备对云端。
-deviceName = "x"
-deviceSecret = "x"
-# 云端对云端。
 apikey = "x"
-
-
-def signature(sig_factors):
-    keys = list(sig_factors.keys())
-    keys.sort()
-    tmp = ""
-    for key in keys:
-        tmp += sig_factors[key]
-
-    print(tmp)
-    hashed = hmac.new(bytes(deviceSecret, encoding="utf-8"),
-                      bytes(tmp, encoding="utf-8"), sha1)
-    return hashed.hexdigest()
 
 
 async def textRequest(ws):
@@ -101,21 +84,8 @@ async def audioRequest(ws):
 
 async def dds_demo():
     # 云端对云端。
-    # url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&apikey={apikey}"
+    url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&apikey={apikey}"
 
-    # 设备对云端。
-    nonce = uuid4().hex
-    timestamp = int(time.time())
-    nonce = uuid4().hex
-    factors = {
-        "productId": productId,
-        "deviceName": deviceName,
-        "timestamp": str(timestamp),
-        "nonce": nonce
-    }
-    sig = signature(factors)
-    url = f"wss://dds.dui.ai/dds/v2/{alias}?serviceType=websocket&productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
-    
     print(url)
     async with websockets.connect(url) as websocket:
         await textRequest(websocket)

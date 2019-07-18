@@ -8,24 +8,7 @@ from hashlib import sha1
 alias = "prod"
 # 使用自己产品的相关参数替换下列参数。
 productId = "x"
-# 设备对云端。
-deviceName = "x"
-deviceSecret = "x"
-# 云端对云端。
 apikey = "x"
-
-
-def signature(sig_factors):
-    # 计算签名。
-    keys = list(sig_factors.keys())
-    keys.sort()
-    tmp = ""
-    for key in keys:
-        tmp += sig_factors[key]
-
-    hashed = hmac.new(bytes(deviceSecret, encoding="utf-8"),
-                      bytes(tmp, encoding="utf-8"), sha1)
-    return hashed.hexdigest()
 
 
 def textDm(url):
@@ -98,19 +81,6 @@ if __name__ == "__main__":
     # 云端对云端。
     url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&apikey={apikey}"
 
-    # 设备对云端。
-    # nonce = uuid4().hex
-    # timestamp = int(time.time())
-    # nonce = uuid4().hex
-    # factors = {
-    #     "deviceName": deviceName,
-    #     "nonce": nonce,
-    #     "productId": productId,
-    #     "timestamp": str(timestamp)
-    # }
-    # sig = signature(factors)
-    # url = f"https://dds.dui.ai/dds/v2/{alias}?productId={productId}&deviceName={deviceName}&nonce={nonce}&timestamp={timestamp}&sig={sig}"
-    
     textDm(url)
     # triggerIntent(url)
     # systemSetting(url)
