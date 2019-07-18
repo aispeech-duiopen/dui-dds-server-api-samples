@@ -20,7 +20,7 @@ public class ClientApplication {
         // 使用自己产品的相关参数替换下列参数。
         authParams.put("productId", "x");
         authParams.put("apiKey", "x");
-        
+
         try {
             doDDSHttpRequest("apiKey", authParams);
         } catch (Exception e) {
@@ -29,4 +29,3 @@ public class ClientApplication {
     }
 
 }
-
