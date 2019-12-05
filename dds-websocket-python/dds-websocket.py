@@ -50,7 +50,6 @@ async def triggerIntent(ws):
     except websockets.exceptions.ConnectionClosed as exp:
         print(exp)
 
-
 async def audioRequest(ws):
     content = {
         "aiType":"dm",
@@ -81,6 +80,48 @@ async def audioRequest(ws):
         print(exp)
         ws.close()
 
+async def skillSetting(ws):
+    # 做技能级配置。
+    content = {
+        "topic": "skill.settings",
+        "skillId": "2018040200000004",
+        "option": "set",
+        "settings": [
+            {
+                "key": "city",
+                "value": "苏州"
+            }
+        ]
+    }
+    try:
+        await ws.send(json.dumps(content))
+        resp = await ws.recv()
+        print(resp)
+    except websockets.exceptions.ConnectionClosed as exp:
+        print(exp)
+
+async def systemSetting(ws):
+    # 做系统级配置。
+    content = {
+        "topic": "system.settings",
+        "settings": [
+            {
+                "key": "location",
+                "value": {
+                    "longitude": "80",
+                    "latitude": "120",
+                    "address": "china",
+                    "city": "suzhou",
+                }
+            }
+        ]
+    }
+    try:
+        await ws.send(json.dumps(content))
+        resp = await ws.recv()
+        print(resp)
+    except websockets.exceptions.ConnectionClosed as exp:
+        print(exp)
 
 async def dds_demo():
     # 云端对云端。
@@ -91,6 +132,8 @@ async def dds_demo():
         await textRequest(websocket)
         # await triggerIntent(websocket)
         # await audioRequest(websocket)
+        # await skillSetting(websocket)
+        # await systemSetting(websocket)
 
 
 asyncio.get_event_loop().run_until_complete(dds_demo())
