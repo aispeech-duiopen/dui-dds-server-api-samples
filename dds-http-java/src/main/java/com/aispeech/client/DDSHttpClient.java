@@ -1,6 +1,5 @@
 package com.aispeech.client;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -24,11 +23,12 @@ public class DDSHttpClient extends BaseClient {
 
     // 发送文本请求对话。
     public void textDm() {
-        JSONObject textParams = new JSONObject();
-        textParams.put("aiType", "dm");
-        textParams.put("topic", "nlu.input.text");
-        textParams.put("recordId", UUID.randomUUID() + "");
-        textParams.put("refText", "苏州的天气");
+        JSONObject textParams = JSONObject.parseObject(String.format("{\n" +
+                "    \"aiType\": \"dm\",\n" +
+                "    \"topic\": \"nlu.input.text\",\n" +
+                "    \"recordId\": \"%s\",\n" +
+                "    \"refText\": \"苏州的天气\"\n" +
+                "}", UUID.randomUUID() + ""));
 
         HttpPost post = new HttpPost(ddsUrl);
         post.setHeader("Accept", "application/json");
@@ -45,17 +45,17 @@ public class DDSHttpClient extends BaseClient {
 
     // 发送触发意图请求。
     public void triggerIntent() {
-        JSONObject textParams = new JSONObject();
-        textParams.put("aiType", "dm");
-        textParams.put("topic", "dm.input.intent");
-        textParams.put("recordId", UUID.randomUUID() + "");
-        textParams.put("skillId", "2018040200000004");
-        textParams.put("task", "查询天气");
-        textParams.put("intent", "天气");
-
-        JSONObject slotsParams = new JSONObject();
-        slotsParams.put("国内城市", "苏州");
-        textParams.put("slots", slotsParams);
+        JSONObject textParams = JSONObject.parseObject(String.format("{\n" +
+                "    \"aiType\": \"dm\",\n" +
+                "    \"topic\": \"dm.input.intent\",\n" +
+                "    \"recordId\": \"%s\",\n" +
+                "    \"skillId\": \"2018040200000004\",\n" +
+                "    \"task\": \"查询天气\",\n" +
+                "    \"intent\": \"天气\",\n" +
+                "    \"slots\": {\n" +
+                "        \"国内城市\": \"苏州\"\n" +
+                "    }\n" +
+                "}", UUID.randomUUID() + ""));
 
         HttpPost post = new HttpPost(ddsUrl);
         post.setHeader("Accept", "application/json");
@@ -72,22 +72,21 @@ public class DDSHttpClient extends BaseClient {
 
     // 做系统级配置。
     public void systemSetting() {
-        JSONObject textParams = new JSONObject();
-        textParams.put("topic", "system.settings");
-
-        JSONObject settingParams = new JSONObject();
-        settingParams.put("key", "location");
-        JSONObject valueParams = new JSONObject();
-        valueParams.put("longitude", 80);
-        valueParams.put("latitude", 120);
-        valueParams.put("address", "china");
-        valueParams.put("city", "suzhou");
-        valueParams.put("time", "2019-04-01T09:00:00+0800");
-        settingParams.put("value", valueParams);
-
-        JSONArray settingArray = new JSONArray();
-        settingArray.add(settingParams);
-        textParams.put("settings", settingArray);
+        JSONObject textParams = JSONObject.parseObject("{\n" +
+                "    \"topic\": \"system.settings\",\n" +
+                "    \"settings\": [\n" +
+                "        {\n" +
+                "            \"key\": \"location\",\n" +
+                "            \"value\": {\n" +
+                "                \"longitude\": 80,\n" +
+                "                \"latitude\": 120,\n" +
+                "                \"address\": \"china\",\n" +
+                "                \"city\": \"suzhou\",\n" +
+                "                \"time\": \"2019-04-01T09:00:00+0800\"\n" +
+                "            }\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}");
 
         HttpPost post = new HttpPost(ddsUrl);
         post.setHeader("Accept", "application/json");
@@ -103,17 +102,16 @@ public class DDSHttpClient extends BaseClient {
     }
 
     public void skillSetting() {
-        JSONObject textParams = new JSONObject();
-        textParams.put("topic", "skill.settings");
-        textParams.put("skillId", "2018040200000004");
-
-        JSONObject settingParams = new JSONObject();
-        settingParams.put("key", "key1");
-        settingParams.put("value", "value1");
-
-        JSONArray settingArray = new JSONArray();
-        settingArray.add(settingParams);
-        textParams.put("settings", settingArray);
+        JSONObject textParams = JSONObject.parseObject("{\n" +
+                "    \"topic\": \"skill.settings\",\n" +
+                "    \"skillId\": \"2018040200000004\",\n" +
+                "    \"settings\": [\n" +
+                "        {\n" +
+                "            \"key\": \"city\",\n" +
+                "            \"value\": \"苏州\"\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}");
 
         HttpPost post = new HttpPost(ddsUrl);
         post.setHeader("Accept", "application/json");
