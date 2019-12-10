@@ -2,9 +2,6 @@ package com.aispeech.client;
 
 import com.alibaba.fastjson.JSONObject;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,11 +33,12 @@ public class DDSWebSocketClient extends BaseClient {
     }
 
     public void textRequest() {
-        JSONObject textParams = new JSONObject();
-        textParams.put("aiType", "dm");
-        textParams.put("topic", "nlu.input.text");
-        textParams.put("recordId", UUID.randomUUID() + "");
-        textParams.put("refText", "苏州的天气");
+        JSONObject textParams = JSONObject.parseObject(String.format("{\n" +
+                "    \"aiType\": \"dm\",\n" +
+                "    \"topic\": \"nlu.input.text\",\n" +
+                "    \"recordId\": \"%s\",\n" +
+                "    \"refText\": \"苏州的天气\"\n" +
+                "}", UUID.randomUUID() + ""));
         try {
             client.send(JSONObject.toJSONString(textParams));
         } catch (Exception e) {
@@ -49,17 +47,17 @@ public class DDSWebSocketClient extends BaseClient {
     }
 
     public void triggerIntent() {
-        JSONObject intentParams = new JSONObject();
-        intentParams.put("aiType", "dm");
-        intentParams.put("topic", "dm.input.intent");
-        intentParams.put("recordId", UUID.randomUUID() + "");
-        intentParams.put("skillId", "2018040200000004");
-        intentParams.put("intent", "查询天气");
-        intentParams.put("task", "天气");
-
-        JSONObject slots = new JSONObject();
-        slots.put("国内城市", "苏州");
-        intentParams.put("slots", slots);
+        JSONObject intentParams = JSONObject.parseObject(String.format("{\n" +
+                "    \"aiType\": \"dm\",\n" +
+                "    \"topic\": \"dm.input.intent\",\n" +
+                "    \"recordId\": \"%s\",\n" +
+                "    \"skillId\": \"2018040200000004\",\n" +
+                "    \"intent\": \"查询天气\",\n" +
+                "    \"task\": \"天气\",\n" +
+                "    \"slots\": {\n" +
+                "        \"国内城市\": \"苏州\"\n" +
+                "    }\n" +
+                "}", UUID.randomUUID() + ""));
         try {
             client.send(JSONObject.toJSONString(intentParams));
         } catch (Exception e) {
@@ -73,16 +71,16 @@ public class DDSWebSocketClient extends BaseClient {
      */
     public void audioRequest(String audioPath, Integer step) {
 
-        JSONObject asrParams = new JSONObject();
-        asrParams.put("topic", "recorder.stream.start");
-        asrParams.put("recordId", UUID.randomUUID() + "");
-
-        JSONObject audio = new JSONObject();
-        audio.put("audioType", "wav");
-        audio.put("sampleRate", 8000);
-        audio.put("channel", 1);
-        audio.put("sampleBytes", 2);
-        asrParams.put("audio", audio);
+        JSONObject asrParams = JSONObject.parseObject(String.format("{\n" +
+                "    \"topic\": \"recorder.stream.start\",\n" +
+                "    \"recordId\": \"%s\",\n" +
+                "    \"audio\": {\n" +
+                "        \"audioType\": \"wav\",\n" +
+                "        \"sampleRate\": 8000,\n" +
+                "        \"channel\": 1,\n" +
+                "        \"sampleBytes\": 2\n" +
+                "    }\n" +
+                "}", UUID.randomUUID() + ""));
 
         InputStream inputStream = null;
         try {
@@ -109,6 +107,47 @@ public class DDSWebSocketClient extends BaseClient {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void systemSettings() {
+        JSONObject settingParams = JSONObject.parseObject("{\n" +
+                "        \"topic\": \"system.settings\",\n" +
+                "        \"settings\": [\n" +
+                "            {\n" +
+                "                \"key\": \"location\",\n" +
+                "                \"value\": {\n" +
+                "                    \"longitude\": \"80\",\n" +
+                "                    \"latitude\": \"120\",\n" +
+                "                    \"address\": \"china\",\n" +
+                "                    \"city\": \"suzhou\",\n" +
+                "                }\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }");
+        try {
+            client.send(JSONObject.toJSONString(settingParams));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void skillSettings() {
+        JSONObject settingParams = JSONObject.parseObject("{\n" +
+                "        \"topic\": \"skill.settings\",\n" +
+                "        \"skillId\": \"2018040200000004\",\n" +
+                "        \"option\": \"set\",\n" +
+                "        \"settings\": [\n" +
+                "            {\n" +
+                "                \"key\": \"city\",\n" +
+                "                \"value\": \"苏州\"\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }");
+        try {
+            client.send(JSONObject.toJSONString(settingParams));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

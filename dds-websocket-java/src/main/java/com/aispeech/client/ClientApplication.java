@@ -9,6 +9,8 @@ public class ClientApplication {
         ddsWSClient.textRequest();
         // ddsWSClient.triggerIntent();
         // ddsWSClient.audioRequest("audio/8k.wav", 3200);
+        // ddsWSClient.systemSettings();
+        // ddsWSClient.skillSettings();
 
         try {
             Thread.sleep(3000);
