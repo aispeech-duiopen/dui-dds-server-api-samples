@@ -7,10 +7,12 @@ public class Starter {
     // 使用自己产品的相关参数替换下列参数。
     private static final String productId = "x";
     private static final String apiKey = "x";
+    // 指定使用的第一路语言模型。可以使用如 comm/aicar/airobot/aihome 等。
+    private static final String res = "comm";
     private static final String filename = "asr/asrtest.wav";
 
     public static void main(String args[]) {
-        String url = String.format("http://asr.dui.ai/runtime/v2/recognize?productId=%s&apikey=%s", productId, apiKey);
+        String url = String.format("http://asr.dui.ai/runtime/v2/recognize?productId=%s&apikey=%s&res=%s", productId, apiKey, res);
 
         String requestParams = String.format("{\n" +
                  "    \"context\": {\n" +
